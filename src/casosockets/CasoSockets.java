@@ -5,16 +5,18 @@
  */
 package casosockets;
 
+import API.IObservable;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 
 /**
  *
  * @author naty9
  */
 public class CasoSockets {
-
+    public HashMap<String, IObservable> observables;
     public static void main(String[] args) throws Exception {
         try{
             ServerSocket server=new ServerSocket(8888);
@@ -24,7 +26,7 @@ public class CasoSockets {
                 counter++;
                 Socket serverClient=server.accept();  //server accept the client connection request
                 System.out.println(" >> " + "Client No:" + counter + " started!");
-                Servidor sct = new Servidor(serverClient,counter); //send  the request to a separate thread
+                ServidorSubasta sct = new ServidorSubasta(serverClient,counter); //send  the request to a separate thread
                 sct.start();
             }
         }catch(Exception e){

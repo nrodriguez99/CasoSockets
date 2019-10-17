@@ -30,6 +30,7 @@ public class Cliente extends Thread{
 
             while(!clientMessage.equals("bye")){
                 System.out.println("Enter number :");
+
                 clientMessage=br.readLine();
                 outStream.writeUTF(clientMessage);
                 outStream.flush();
