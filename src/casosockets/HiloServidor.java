@@ -56,7 +56,6 @@ public class HiloServidor extends Thread implements IObservable,Runnable {
         try{
             ObjectInputStream is1 = new ObjectInputStream(socket.getInputStream());
             mensaje = (MensajeObject) is1.readObject();
-            System.out.println("Recibir mensaje: "+mensaje.getObjeto());
             return mensaje;
         }catch(IOException ex){
             Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);

@@ -37,7 +37,7 @@ public class CasoSockets  {
             ServerSocket server=new ServerSocket(8888);
             int counter=0;
             System.out.println("Server Started ....");
-            InformacionSubasta.getInstance();
+           // InformacionSubasta.getInstance();
             while(true){
                 counter++;
                 Socket serverClient=server.accept();  //server accept the client connection request

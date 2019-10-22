@@ -78,6 +78,12 @@ public class InformacionSubasta   {
                     break;
                 case "Enviar Mensaje Ganador":
                     break;
+                case "Conectar Oferente":
+                    String nuevoObjeto2 = jsonSubastas();
+                    objeto.setObjeto(nuevoObjeto2);
+                    objeto.setComando("notificacion observador");
+                    this.hiloServidor.notifyAllObservers(objeto,CasoSockets.observadores);
+                    break;
                 default:
                     System.out.println("Error de comando");
             }
