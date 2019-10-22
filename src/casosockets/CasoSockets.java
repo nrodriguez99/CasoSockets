@@ -5,41 +5,51 @@
  */
 package casosockets;
 
+import API.AbstractObservable;
 import API.IObservable;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
  *
  * @author naty9
  */
-public class CasoSockets {
-    public static HashMap<String, String> observables;
-    public static HashMap<String, Socket> observer;
+public class CasoSockets  {
+    public static ArrayList<ObjectOutputStream> observadores;
     
     public CasoSockets(){
-        observables = new HashMap<>();
-        observer = new HashMap<>();
+        observadores = new ArrayList<ObjectOutputStream>();
+        go();   
     }
     public static void main(String[] args) throws Exception {
-        new CasoSockets();
-        try{
+        
+        CasoSockets cs =new CasoSockets();
+        
+
+    }
+    public void go(){
+       try{
             ServerSocket server=new ServerSocket(8888);
             int counter=0;
             System.out.println("Server Started ....");
-            ObservableSubasta.getInstance();
+            InformacionSubasta.getInstance();
             while(true){
                 counter++;
                 Socket serverClient=server.accept();  //server accept the client connection request
                 System.out.println(" >> " + "Client No:" + counter + " started!");
-                Servidor sct = new Servidor(serverClient,counter); //send  the request to a separate thread
+                HiloServidor sct = new HiloServidor(serverClient,counter); 
+                sct.addObserver(sct.os);
+                //send  the request to a separate thread
                 sct.start();
             }
         }catch(Exception e){
             System.out.println(e);
         }
     }
+
     
 }

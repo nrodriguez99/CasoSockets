@@ -5,6 +5,8 @@
  */
 package casosockets;
 
+import API.IObservable;
+import API.IObserver;
 import API.MensajeObject;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -21,18 +23,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
+import jdk.internal.org.objectweb.asm.util.Printer;
 
 /**
  *
  * @author maryp
  */
-public class Servidor extends Thread implements Serializable, Runnable {
+public class HiloServidor extends Thread implements IObservable,Runnable {
     Socket socket;
     ObjectInputStream is;
     ObjectOutputStream os;
+
     int clientNo;
-    Servidor(Socket inSocket,int counter){
+    HiloServidor(Socket inSocket,int counter){
         socket = inSocket;
         clientNo=counter;
         crearFlujos();
@@ -41,9 +44,10 @@ public class Servidor extends Thread implements Serializable, Runnable {
         try{
            is = new ObjectInputStream(socket.getInputStream());
            os= new ObjectOutputStream(socket.getOutputStream());
+           
 
         }catch(IOException ex){
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     public MensajeObject recibirObjeto(){
@@ -54,9 +58,9 @@ public class Servidor extends Thread implements Serializable, Runnable {
             System.out.println("Recibir mensaje: "+mensaje.getObjeto());
             return mensaje;
         }catch(IOException ex){
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
         }
         return mensaje;
     }
@@ -67,7 +71,7 @@ public class Servidor extends Thread implements Serializable, Runnable {
            // os.newLine();
             os.flush();
         } catch (IOException ex) {
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
@@ -77,15 +81,7 @@ public class Servidor extends Thread implements Serializable, Runnable {
 
             switch (mensaje.getNombreAplcacion()){
                 case "Subasta":
-                {
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException ex) {
-                        Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-                    ObservableSubasta v = ObservableSubasta.getInstance();
-                    v.setHiloCliente(socket);
+                    InformacionSubasta v = InformacionSubasta.getInstance();
                     v.setHiloServidor(this);
                     v.evaluarInformacion(mensaje);  
                     System.out.println("Subasta creada");
@@ -100,4 +96,33 @@ public class Servidor extends Thread implements Serializable, Runnable {
             }
         }
     }
+
+    @Override
+    public void addObserver(ObjectOutputStream observer) {
+        CasoSockets.observadores.add(observer);
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeObserver(ObjectOutputStream observer) {
+        CasoSockets.observadores.remove(observer);
+     //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void notifyAllObservers(MensajeObject mensaje) {
+        for(ObjectOutputStream os: CasoSockets.observadores){
+            try {
+                os.writeObject(mensaje);
+               // os.newLine();
+                os.flush();
+            } catch (IOException ex) {
+                Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }     
+     //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
+
 }
