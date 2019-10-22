@@ -23,6 +23,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import jdk.internal.org.objectweb.asm.util.Printer;
 
 /**
@@ -110,12 +111,12 @@ public class HiloServidor extends Thread implements IObservable,Runnable {
     }
 
     @Override
-    public void notifyAllObservers(MensajeObject mensaje) {
-        for(ObjectOutputStream os: CasoSockets.observadores){
+    public void notifyAllObservers(MensajeObject mensaje, ArrayList<ObjectOutputStream> observadores) {
+        for(ObjectOutputStream o: observadores){
             try {
-                os.writeObject(mensaje);
+                o.writeObject(mensaje);
                // os.newLine();
-                os.flush();
+                o.flush();
             } catch (IOException ex) {
                 Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
             }

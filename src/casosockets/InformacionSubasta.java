@@ -59,7 +59,7 @@ public class InformacionSubasta   {
                     objeto.setComando("notificacion observador");
                     String nuevoObjeto = jsonSubastas();
                     objeto.setObjeto(nuevoObjeto);
-                    this.hiloServidor.notifyAllObservers(objeto);
+                    this.hiloServidor.notifyAllObservers(objeto, CasoSockets.observadores);
                     System.out.println("Subasta agregada con éxito");
                     break;
                 case "Colocar producto":
@@ -71,7 +71,7 @@ public class InformacionSubasta   {
                     System.out.println(CasoSockets.observables.toString());
                     String nuevoObjeto1 = jsonSubastas();
                     objeto.setObjeto(nuevoObjeto1);
-                    this.hiloServidor.notifyAllObservers(objeto);
+                    this.hiloServidor.notifyAllObservers(objeto,CasoSockets.observadores);
                     
                     break;
                 case "Aceptar oferta":
