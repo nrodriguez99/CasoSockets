@@ -20,9 +20,10 @@ import java.util.HashMap;
  */
 public class CasoSockets  {
     public static ArrayList<ObjectOutputStream> observadores;
-    
+    public static  HashMap<String, String> observables;
     public CasoSockets(){
         observadores = new ArrayList<ObjectOutputStream>();
+        observables = new HashMap<>();
         go();   
     }
     public static void main(String[] args) throws Exception {
