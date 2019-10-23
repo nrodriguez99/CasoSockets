@@ -69,14 +69,28 @@ public class InformacionSubasta   {
                     
                     break;
                 case "Aceptar oferta":
+                case "Rechazar oferta":
+                    CasoSockets.observables.replace(objeto.getKey(), objeto.getObjeto());
+                    objeto.setComando("enviar mensaje ganador");
+                    String nuevoObjeto4 = jsonSubastas();
+                    objeto.setObjeto(nuevoObjeto4);
+                    this.hiloServidor.notifyAllObservers(objeto,CasoSockets.observadores);
                     break;
                 case "Enviar Mensaje Ganador":
+                   this.hiloServidor.notifyAllObservers(objeto,CasoSockets.observadores);
                     break;
                 case "Conectar Oferente":
                     String nuevoObjeto2 = jsonSubastas();
                     objeto.setObjeto(nuevoObjeto2);
                     objeto.setComando("notificacion observador");
                     this.hiloServidor.notifyAllObservers(objeto,CasoSockets.observadores);
+                    break;
+                case "Añadir oferta":
+                    CasoSockets.observables.replace(objeto.getKey(),objeto.getObjeto());
+                     objeto.setComando("notificacion observador");
+                     String nuevoObjeto3 = jsonSubastas();
+                     objeto.setObjeto(nuevoObjeto3);
+                     this.hiloServidor.notifyAllObservers(objeto,CasoSockets.observadores);
                     break;
                 default:
                     System.out.println("Error de comando");
