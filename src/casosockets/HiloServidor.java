@@ -36,7 +36,7 @@ public class HiloServidor extends Thread implements IObservable,Runnable {
     ObjectOutputStream os;
 
     int clientNo;
-    HiloServidor(Socket inSocket,int counter){
+    public HiloServidor(Socket inSocket,int counter){
         socket = inSocket;
         clientNo=counter;
         crearFlujos();
@@ -88,8 +88,13 @@ public class HiloServidor extends Thread implements IObservable,Runnable {
                     break;
 
                 case "RedSocial":
+                    InfoRedes r = InfoRedes.getInstance();
+                    r.setHiloServidor(this);
+                    r.evaluarInformacion(mensaje);
+                    break;
                 default:
-                    System.out.println("Si le llega los mensajes al servidor");
+                    System.out.println("Error");
+
                     break;
                 
                     

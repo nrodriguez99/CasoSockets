@@ -5,15 +5,10 @@
  */
 package casosockets;
 
-import API.AbstractObservable;
-import API.IObservable;
-import API.IObserver;
-import API.Json;
+
 import API.MensajeObject;
 import com.google.gson.Gson;
-import java.io.ObjectInputStream;
-import java.net.Socket;
-import java.util.HashMap;
+
 
 /**
  *
@@ -29,7 +24,6 @@ public class InformacionSubasta   {
     public static InformacionSubasta getInstance()
     {
         if (singletonInstance == null)
-            System.out.println("Instancia");
             singletonInstance = new InformacionSubasta();
 
             
