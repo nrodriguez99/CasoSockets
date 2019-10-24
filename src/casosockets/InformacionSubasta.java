@@ -71,12 +71,14 @@ public class InformacionSubasta   {
                 case "Aceptar oferta":
                 case "Rechazar oferta":
                     CasoSockets.observables.replace(objeto.getKey(), objeto.getObjeto());
-                    objeto.setComando("enviar mensaje ganador");
+                    objeto.setComando("notificacion observador");
                     String nuevoObjeto4 = jsonSubastas();
                     objeto.setObjeto(nuevoObjeto4);
                     this.hiloServidor.notifyAllObservers(objeto,CasoSockets.observadores);
                     break;
                 case "Enviar Mensaje Ganador":
+                    objeto.setComando("enviar mensaje ganador");
+                    System.out.println("Enviar mensaje");
                    this.hiloServidor.notifyAllObservers(objeto,CasoSockets.observadores);
                     break;
                 case "Conectar Oferente":
