@@ -44,16 +44,23 @@ public class InfoRedes{
         return representacionJSON;
     }
     public void evaluarInformacion(MensajeObject objeto){
+        String nuevoObjeto;
         switch(objeto.getComando()){
             case "Crear VIP":
                 CasoSockets.observables.put(objeto.getKey(), objeto.getObjeto());
                 objeto.setComando("notificacion observador");
-                String nuevoObjeto = jsonRedes();
+                nuevoObjeto = jsonRedes();
                 objeto.setObjeto(nuevoObjeto);
                 this.hiloServidor.notifyAllObservers(objeto, CasoSockets.observadores);
                 System.out.println("VIP agregado con éxito");
                 break;
             case "Postear mensaje":
+                CasoSockets.observables.replace(objeto.getKey(), objeto.getObjeto());
+                objeto.setComando("notificacion observador");
+                nuevoObjeto = jsonRedes();
+                objeto.setObjeto(nuevoObjeto);
+                this.hiloServidor.notifyAllObservers(objeto, CasoSockets.observadores);
+                System.out.println("Mensaje posteado!");
                 break;
             case "Ver Mensajes":
                 break;
@@ -63,11 +70,11 @@ public class InfoRedes{
                 break;
             case "Reaccionar a mensaje":
                 break;
-            case "Conectar Oferente":
+            case "Conectar Follower":
                 String nuevoObjeto2 = jsonRedes();
                 objeto.setObjeto(nuevoObjeto2);
                 objeto.setComando("notificacion observador");
-                this.hiloServidor.notifyAllObservers(objeto,CasoSockets.observadores);
+                //this.hiloServidor.notifyAllObservers(objeto,CasoSockets.observadores);
                 break;
             default:
                 System.out.println("Error de comando");

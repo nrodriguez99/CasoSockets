@@ -91,6 +91,8 @@ public class HiloServidor extends Thread implements IObservable,Runnable {
                     InfoRedes r = InfoRedes.getInstance();
                     r.setHiloServidor(this);
                     r.evaluarInformacion(mensaje);
+                    System.out.println("Solicitud recibida..");
+
                     break;
                 default:
                     System.out.println("Error");
