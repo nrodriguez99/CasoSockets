@@ -5,8 +5,7 @@
  */
 package casosockets;
 
-import API.AbstractObservable;
-import API.IObservable;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
