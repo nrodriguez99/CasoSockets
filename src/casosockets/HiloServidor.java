@@ -73,7 +73,6 @@ public class HiloServidor extends Thread implements IObservable,Runnable {
                     InformacionSubasta v = InformacionSubasta.getInstance();
                     v.setHiloServidor(this);
                     v.evaluarInformacion(mensaje);  
-                    System.out.println("Subasta creada");
                     break;
 
                 case "RedSocial":
