@@ -5,8 +5,7 @@
  */
 package casosockets;
 
-import API.AbstractObservable;
-import API.IObservable;
+
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
@@ -19,10 +18,10 @@ import java.util.HashMap;
  * @author naty9
  */
 public class CasoSockets  {
-    public static ArrayList<ObjectOutputStream> observadores;
+    public static ArrayList<Object> observadores;
     public static  HashMap<String, String> observables;
     public CasoSockets(){
-        observadores = new ArrayList<ObjectOutputStream>();
+        observadores = new ArrayList<>();
         observables = new HashMap<>();
         go();   
     }
@@ -37,13 +36,13 @@ public class CasoSockets  {
             ServerSocket server=new ServerSocket(8888);
             int counter=0;
             System.out.println("Server Started ....");
-           // InformacionSubasta.getInstance();
             while(true){
                 counter++;
                 Socket serverClient=server.accept();  //server accept the client connection request
                 System.out.println(" >> " + "Client No:" + counter + " started!");
                 HiloServidor sct = new HiloServidor(serverClient,counter); 
-                sct.addObserver(sct.os);
+                sct.setOs(sct.os);
+                //sct.addObserver(sct.os);
                 //send  the request to a separate thread
                 sct.start();
             }
