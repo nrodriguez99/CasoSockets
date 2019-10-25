@@ -49,7 +49,9 @@ public class InformacionSubasta   {
         System.out.println(objeto.getComando());
             switch(objeto.getComando()){
                 case "Agregar subasta":
+
                     CasoSockets.observables.put(objeto.getKey(), (String)objeto.getObjeto());
+
                     objeto.setComando("notificacion observador");
                     String nuevoObjeto = jsonSubastas();
                     objeto.setObjeto(nuevoObjeto);
@@ -88,11 +90,15 @@ public class InformacionSubasta   {
                     System.out.println("Conectar oferente");
                     break;
                 case "Añadir oferta":
+
+
                     CasoSockets.observables.replace(objeto.getKey(),(String)objeto.getObjeto());
                     objeto.setComando("notificacion observador");
                     String nuevoObjeto3 = jsonSubastas();
                     objeto.setObjeto(nuevoObjeto3);
                     this.hiloServidor.notifyAllObservers(objeto,CasoSockets.observadores);
+                    System.out.println("Añadir oferta");
+
                     break;
                 default:
                     System.out.println("Error de comando");
