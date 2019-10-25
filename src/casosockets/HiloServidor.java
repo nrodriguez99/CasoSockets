@@ -41,6 +41,9 @@ public class HiloServidor extends Thread implements IObservable,Runnable {
         clientNo=counter;
         crearFlujos();
     }
+    public void setOs(ObjectOutputStream o){
+        this.os = o;
+    }
     public void crearFlujos(){
         try{
            is = new ObjectInputStream(socket.getInputStream());
@@ -81,18 +84,20 @@ public class HiloServidor extends Thread implements IObservable,Runnable {
 
             switch (mensaje.getNombreAplcacion()){
                 case "Subasta":
+                    addObserver(os);
                     InformacionSubasta v = InformacionSubasta.getInstance();
                     v.setHiloServidor(this);
                     v.evaluarInformacion(mensaje);  
-                    System.out.println("Subasta creada");
+                    System.out.println("Solicitud recibida..");
                     break;
 
                 case "RedSocial":
+                    System.out.println("Solicitud recibida..");
                     InfoRedes r = InfoRedes.getInstance();
                     r.setHiloServidor(this);
-                    r.evaluarInformacion(mensaje);
-                    System.out.println("Solicitud recibida..");
-
+                    if(mensaje.getComando().equals("Crear Follower")||mensaje.getComando().equals("Crear VIP")){addObserver(os);}
+                    r.evaluarInformacion(mensaje,os);
+                    
                     break;
                 default:
                     System.out.println("Error");
@@ -117,17 +122,26 @@ public class HiloServidor extends Thread implements IObservable,Runnable {
     }
 
     @Override
-    public void notifyAllObservers(MensajeObject mensaje, ArrayList<ObjectOutputStream> observadores) {
-        for(ObjectOutputStream o: observadores){
+    public void notifyAllObservers(MensajeObject mensaje, ArrayList<Object> observadores) {
+        for(Object o: observadores){
             try {
-                o.writeObject(mensaje);
+                ObjectOutputStream obj = (ObjectOutputStream)o;
+                obj.writeObject(mensaje);
                // os.newLine();
-                o.flush();
+                obj.flush();
             } catch (IOException ex) {
                 Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
             }
         }     
-     //   throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public void sendObjectStream(ObjectOutputStream obj){
+        try{
+            os.writeObject(obj);
+            os.flush();
+        } catch (IOException ex) {
+                Logger.getLogger(HiloServidor.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
 
 
