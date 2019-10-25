@@ -59,10 +59,21 @@ public class InfoRedes{
                 break;
             case "Postear mensaje":
                 CasoSockets.observables.replace(objeto.getKey(), (String)objeto.getObjeto());
+                objeto.setComando("notificacion observador");
+                nuevoObjeto = jsonRedes();
+                objeto.setObjeto(nuevoObjeto);
+                this.hiloServidor.notifyAllObservers(objeto, CasoSockets.observadores);
                 System.out.println("Mensaje posteado!");
                 break;
                 
             case "Ver Mensajes":
+                CasoSockets.observables.replace(objeto.getKey(), (String)objeto.getObjeto());
+                objeto.setComando("notificacion observador");
+                nuevoObjeto = jsonRedes();
+                objeto.setObjeto(nuevoObjeto);
+                this.hiloServidor.notifyAllObservers(objeto, CasoSockets.observadores);
+                System.out.println("Notificado!");
+
                 break;
             case "Seguir VIP":
                 CasoSockets.observables.replace(objeto.getKey(), (String)objeto.getObjeto());
@@ -75,6 +86,10 @@ public class InfoRedes{
                 
             case "Reaccionar a mensaje":
                 CasoSockets.observables.replace(objeto.getKey(), (String)objeto.getObjeto());
+                objeto.setComando("notificacion observador");
+                nuevoObjeto = jsonRedes();
+                objeto.setObjeto(nuevoObjeto);
+                this.hiloServidor.notifyAllObservers(objeto, CasoSockets.observadores);
                 System.out.println("Reaccion guardada!");
                 break;
             case "Crear Follower":

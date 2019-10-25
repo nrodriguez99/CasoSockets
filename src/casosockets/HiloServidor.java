@@ -70,10 +70,10 @@ public class HiloServidor extends Thread implements IObservable,Runnable {
     public void run(){
         while(true){
             MensajeObject mensaje = recibirObjeto();
-
+            addObserver(os);
             switch (mensaje.getNombreAplcacion()){
                 case "Subasta":
-                    addObserver(os);
+                    
                     InformacionSubasta v = InformacionSubasta.getInstance();
                     v.setHiloServidor(this);
                     v.evaluarInformacion(mensaje);  
@@ -83,7 +83,6 @@ public class HiloServidor extends Thread implements IObservable,Runnable {
                     System.out.println("Solicitud recibida..");
                     InfoRedes r = InfoRedes.getInstance();
                     r.setHiloServidor(this);
-                    if(mensaje.getComando().equals("Crear Follower")||mensaje.getComando().equals("Crear VIP")){addObserver(os);}
                     r.evaluarInformacion(mensaje,os);
                     
                     break;
