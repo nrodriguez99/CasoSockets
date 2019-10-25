@@ -15,7 +15,7 @@ import com.google.gson.Gson;
  * @author maryp
  */
 public class InformacionSubasta   {
-    
+
     private static InformacionSubasta singletonInstance;
     private String subasta;
     private HiloServidor hiloServidor;
@@ -26,8 +26,8 @@ public class InformacionSubasta   {
         if (singletonInstance == null)
             singletonInstance = new InformacionSubasta();
 
-            
-        
+
+
         return singletonInstance;
     }
 
@@ -66,7 +66,7 @@ public class InformacionSubasta   {
                     objeto.setComando("notificacion observador");
                     String nuevoObjeto1 = jsonSubastas();
                     objeto.setObjeto(nuevoObjeto1);
-                    this.hiloServidor.notifyAllObservers(objeto,CasoSockets.observadores);                  
+                    this.hiloServidor.notifyAllObservers(objeto,CasoSockets.observadores);
                     break;
                 case "Aceptar oferta":
                 case "Rechazar oferta":
